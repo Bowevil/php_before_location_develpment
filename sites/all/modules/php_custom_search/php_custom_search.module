@@ -1,0 +1,125 @@
+<?php
+/**
+ * implements hook_block_info
+ * @return array
+ */
+function php_custom_search_block_info() {
+    $blocks = array();
+    $blocks['custom_search'] = array(
+        'info' => t('Custom search block'),
+        'cache' => DRUPAL_NO_CACHE,
+    );
+    return $blocks;
+}
+
+/**
+ * implements hook_block_view
+ * @param string $delta
+ * @return array
+ */
+function php_custom_search_block_view($delta = '') {
+    switch ($delta) {
+        case 'custom_search':
+            $block['subject'] = null;
+            $block['content'] = drupal_get_form('php_custom_search_custom_content_form');
+            break;
+    }
+    return $block;
+}
+
+/**
+ * custom search form
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function php_custom_search_custom_content_form( $form, &$form_state ) {
+
+    $form['keyword'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Keyword'),
+        '#default_value' => '',
+        '#required' => TRUE
+    );
+    $form['php_sponsored'] = array(
+        '#type' => 'radios',
+        '#title' => t('PHP sposored events'),
+        '#options' => array( t('Yes'), t('No')),
+        '#default_value' => 0
+    );
+    $form['past_date_events'] = array(
+        '#type' => 'date_popup',
+        '#title' => t('Events After'),
+        '#default_value' => date('c'),
+        '#date_format' => 'Y-m-d',
+        '#date_label_position' => 'within',
+        '#date_timezone' => 'Europe/Rome',
+        '#date_increment' => 15,
+        '#date_year_range' => '0:+2'
+    );
+    $conditions = db_query("SELECT tid, name FROM {taxonomy_term_data} WHERE vid = 2")->fetchAllKeyed();
+    $form['conditions'] = array(
+        '#title' => t('Conditions'),
+        '#type' => 'select',
+        '#multiple' => true,
+        '#options' => $conditions
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Search'),
+        '#submit' => array(
+            0 => 'php_custom_search_custom_content_form_submit'
+        )
+    );
+    return $form;
+}
+
+function php_custom_search_custom_content_form_submit(&$form_state) {
+//    $form_state['redirect'] = 'phpevents/search/';
+    $keyword = $form_state['keyword']['#value'];
+    $past_date = strtotime($form_state['past_date_events']['#value']['date']);
+    $php_sponsored = $form_state['php_sponsored']['#value'];
+    $conditions = $form_state['conditions']['#value'];
+    dpm($keyword);
+    dpm($past_date);
+    dpm($php_sponsored);
+    dpm($conditions);
+    $contentTypes = ' type:event';
+    $info = search_get_default_module_info();
+    $results = module_invoke('search', 'data', $keyword . $contentTypes, $info['module']);
+    dpm($results);
+    drupal_goto('phpevents/search');
+
+}
+
+function php_custom_search_menu() {
+    $items['phpevents/search'] = array(
+        'title' => 'Search results',
+        'page callback' => 'php_custom_search_search_events',
+        'page arguments' => array(3),
+        'access arguments' => array('access content'),
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+
+function php_custom_search_bootstrap_business($existing, $type, $theme, $path){
+    return array(
+        'phpevents_search_template' => array(
+            'template' => 'page--phpevents--search',
+        ),
+    );
+}
+
+function bootstrap_business_phpevents_search_template($variables) {
+    $node = $variables['node'];
+    $build = node_view($node);
+    $output = drupal_render($build);
+    return $output;
+}
+
+function php_custom_search_search_events($search_results) {
+    return theme('phpevents_search_template');
+}
+

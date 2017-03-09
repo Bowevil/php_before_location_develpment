@@ -1,0 +1,52 @@
+/* Aligns images to the left */
+
+#printfriendly img#pf-header-img {
+    max-height: 90px !important;
+}
+/* Changes font family and size */
+
+#printfriendly {
+    font-family: Arial;
+    font-size: 14px;
+}
+
+/* Changes header color */
+
+#printfriendly h1, #printfriendly h2, #printfriendly h3, #printfriendly h4 {
+    /*color: Green;*/
+}
+
+/* Hides the Page Title and Source URL */
+
+#printfriendly, #pf-src {
+    /*display:none;*/
+}
+
+#pf-content::after {
+    content: "Parents Helping Parents does not endorse or recommend any therapy, medication, or philosophy that families may encounter from the resources or events listed.";
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#pf-content .field-label-inline .field-label,
+#pf-content .location-hidden {
+    display: none;
+}
+
+#pf-content .adr p, #pf-content .adr span {
+    display: inline-block;
+}
+#pf-content .field-name-field-county p:after {
+    content: ' County';
+}
+
+#pf-content .field-name-field-services .field-items,
+#pf-content .field-name-field-tags .field-items {
+    max-width: 460px;
+}
+#printfriendly #pf-src::before {
+    color: #000;
+    content: "www.php.com tel:408-727-5775";
+    display: block;
+    text-align: center;
+}

@@ -1,0 +1,6 @@
+/* Custom CSS overrides */
+#block-block-7 .content a:first-child {
+    height: 103px;
+    margin: 0 auto;
+    width: 131px;
+}

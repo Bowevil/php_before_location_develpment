@@ -1,0 +1,284 @@
+<?php
+
+function php_tweaks_node_view($node, $view_mode, $langcode)
+{
+//    if ($node->type == "event") {
+//
+//        $resources = array();
+//        $resources = db_query("SELECT * FROM node WHERE type='event'")->fetchAll();
+//        foreach ($resources as $one) {
+//            set_time_limit(0);
+//            $current_nid = $one->nid;
+//
+//            $changed_event = node_load($current_nid);
+//            $start_date = db_query("SELECT field_start_date_value FROM field_start_date WHERE entity_id = :nid", array(':nid' => $current_nid))->fetchField();
+//            $start_date_formatted = date("Y-m-d H:i:s", $start_date);
+//            $end_date = db_query("SELECT field_end_date_value FROM field_end_date WHERE entity_id = :nid", array(':nid' => $current_nid))->fetchField();
+//            $end_date_formatted = date("Y-m-d H:i:s", $end_date);
+//            $changed_event->field_start_date[LANGUAGE_NONE][0]['value'] = $start_date_formatted;
+//            $changed_event->field_end_date[LANGUAGE_NONE][0]['value'] = $end_date_formatted;
+//            node_save($changed_event);
+//        }
+//    }
+
+//    if ($node->type == 'resource') {
+//        $resources = array();
+//        $resources = db_query("SELECT * FROM node WHERE type='resource'")->fetchAll();
+//        foreach ($resources as $one) {
+//            set_time_limit(0);
+//            $current_nid = $one->nid;
+//
+//            $changed_resource = node_load($current_nid);
+//            if ($changed_resource && field_get_items('node', $changed_resource, 'field_old_nid')) {
+//////                $old_nid_full = field_get_items('node', $changed_resource, 'field_old_nid');
+//////                $old_nid = $old_nid_full[0]['value'];
+//////                $old_updated = db_query("select rev.timestamp from node_revision_old rev where rev.nid = :old_nid", array(':old_nid' => $old_nid))->fetchField();
+//////                $changed_resource->field_updated_date['und'][0]['value'] = $old_updated;
+//                $upd = $changed_resource->field_updated_date['und'][0]['value'];
+//                $sql = 'UPDATE node SET changed = :upd WHERE nid = :nid';
+//                db_query($sql, array(':nid' => $current_nid, ':upd' => $upd));
+////                dpm(gettype($upd));
+////            $changed_resource->changed = $upd;
+////                node_save($changed_resource);
+//            }
+//        }
+//    }
+
+
+//        $start_time = db_query("SELECT event.event_start FROM event LEFT JOIN node_old ON event.nid=node_old.nid WHERE node_old.title=:current_title", array(':current_title' =>$current_title))->fetchField();
+//        $end_time = db_query("SELECT event.event_end FROM event LEFT JOIN node_old ON event.nid=node_old.nid WHERE node_old.title=:current_title", array(':current_title' =>$current_title))->fetchField();
+//        $timezone = db_query("SELECT event.timezone FROM event LEFT JOIN node_old ON event.nid=node_old.nid where node_old.title=:current_title", array(':current_title' =>$current_title))->fetchField();
+//        $lid = db_query("SELECT location_old.lid FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.title=:current_title", array(':current_title' =>$current_title))->fetchField();
+//        $location_lid_updated = db_query("SELECT field_locations_lid FROM field_data_field_locations WHERE entity_id=:current_nid", array(':current_nid' => $current_nid))->fetchField();
+//        $phone = db_query("SELECT ctevent_old.field_contact_phone_value FROM ctevent_old LEFT JOIN node_old ON ctevent_old.nid=node_old.nid where node_old.title=:current_title", array(':current_title' =>$current_title))->fetchField();
+//        if ($phone) {
+//            dpm($phone);
+//        }
+////        dpm($lid);
+//        if ($lid && $location_lid_updated) {
+//            $updated_lid = db_update('field_data_field_locations')
+//                ->fields(array(
+//                    'field_locations_lid' => $lid,
+//                ))
+//                ->execute();
+//        }
+//        $street = db_query("SELECT location_old.street FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $city = db_query("SELECT location_old.city FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $source = db_query("SELECT location_old.source FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $is_primary = db_query("SELECT location_old.is_primary FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $country = db_query("SELECT location_old.country FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $latitude = db_query("SELECT location_old.latitude FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $longitude = db_query("SELECT location_old.longitude FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        module_load_include('inc', 'php_tweaks', 'geocodes');
+//
+////
+//        $set_timezone_code = php_tweaks_return_areaname_by_code($timezone, $start_time);
+////////        $set_end_time = php_tweaks_return_areaname_by_code($timezone, $end_time);
+//        $set_timezone = timezone_name_from_abbr(null, $set_timezone_code, true);
+//        if (!$set_timezone) {
+//            $set_timezone = 'Atlantic/Azores';
+//        }
+//dpm($start_time);
+//        $set_start_time = new DateTime($start_time);
+//        $set_end_time = new DateTime($end_time);
+////        dpm($set_timezone);
+//
+//        $changed_event = node_load($current_nid);
+//        if ($phone && !field_get_items('node', $changed_event, 'field_contact_phone')) {
+//            $changed_event->field_contact_phone[LANGUAGE_NONE][0]['number'] = $phone;
+//        }
+//        if (field_get_items('node', $changed_event, 'field_start_date') == FALSE && $start_time && $end_time) {
+//            $changed_event->field_start_date[$changed_event->language][0]['value'] =  $start_time;
+//            $changed_event->field_start_date[$changed_event->language][0]['timezone'] = $set_timezone;
+//            $changed_event->field_end_date[$changed_event->language][0]['value'] = $end_time;
+//            $changed_event->field_end_date[$changed_event->language][0]['timezone'] = $set_timezone;
+//        }
+//        if ($lid != 0) {
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['location_name'] = $city;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['street'] = $street;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['country'] = $country;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['latitude'] = $latitude;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['longitude'] = $longitude;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['source'] = $source;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['is_primary'] = $is_primary;
+//        }
+//        node_save($changed_event);
+//    }
+
+//
+//    $events = db_query("SELECT n.nid FROM node n WHERE n.type = 'event' AND n.status = 1");
+//
+//    foreach ($events as $event) {
+//        $to_delete[] = $event->nid;
+//    }
+//
+//    node_delete_multiple($to_delete);
+
+
+    if ($node->type == 'event' && $node->field_allow_reservation) {
+        $allow_reserv = $node->field_allow_reservation[LANGUAGE_NONE][0]['value'];
+        if ($allow_reserv && $allow_reserv === 'yes') {
+            if (!isset($node->field_reserve_seats[LANGUAGE_NONE][0]['url']) || !$node->field_reserve_seats[LANGUAGE_NONE][0]['url']) {
+                $node->field_reserve_seats[LANGUAGE_NONE][0]['url'] = "node/add/event-reservation?event=" . $node->nid;
+                node_save($node);
+            }
+        }
+    }
+
+    if ($node->type == 'event') {
+        global $user;
+        $current_user = $user->uid;
+        $current_event = $node->nid;
+        $bAlreadyRegistered = FALSE;
+        $check_if_registered = db_query("SELECT node.nid FROM node  JOIN field_data_field_event ON node.nid=field_data_field_event.entity_id WHERE node.type='event_reservation' AND node.uid=:current_user AND field_data_field_event.field_event_target_id=:current_event", array(':current_user' => $current_user, ':current_event' => $current_event))->fetchAll();
+        if ($check_if_registered) {
+            $bAlreadyRegistered = TRUE;
+        }
+        $node->content['already_registered']['value'] = $bAlreadyRegistered;
+
+    }
+    return $node;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter
+ * @param $form
+ * @param $form_state
+ *
+ */
+function php_tweaks_form_event_reservation_node_form_alter(&$form, $form_state)
+{
+
+    $node = $form_state['node'];
+    $form['field_event']['#access'] = FALSE;
+    if (!isset($node->nid) || isset($node->is_new)) {
+        $linked_event = $_GET['event'];
+        if ($linked_event) {
+            $event = node_load($linked_event);
+            $event_nid = $event->nid;
+            $event_title = $event->title;
+            $form['field_event'][LANGUAGE_NONE]['#default_value'] = $event_nid;
+            $form['title']['#default_value'] = 'Reservation for ' . $event_title;
+        }
+    }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter
+ * @param $form
+ * @param $form_state
+ *
+ */
+function php_tweaks_form_service_review_node_form_alter(&$form, $form_state)
+{
+    $linked_service = $_GET['service'];
+    if ($linked_service) {
+        $service = node_load($linked_service);
+        $service_title = $service->title;
+        $form['title']['#default_value'] = 'Review for ' . $service_title;
+    }
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter
+ * @param $form
+ * @param $form_state
+ *
+ */
+//function php_tweaks_form_event_node_form_alter(&$form, $form_state)
+//{
+//    hide($form['field_reserve_seats']);
+//}
+
+/**
+ * Implements hook_views_pre_render()
+ * @param $view
+ */
+function php_tweaks_views_pre_render(&$view)
+{
+    if ($view->name == 'events' || $view->name == 'php_events_search') {
+        foreach ($view->result as $row) {
+            if (isset($row->field_field_php_sponsored[0]['rendered']['#markup'])) {
+                $php_sponsored = trim(strtolower($row->field_field_php_sponsored[0]['rendered']['#markup']));
+                if (($php_sponsored == 'yes') == 1) {
+                    $row->node_title = '$token$' . $row->node_title;
+                }
+            }
+        }
+    }
+
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter
+ * @param $form
+ * @param $form_state
+ *
+ */
+function php_tweaks_form_webform_client_form_21451_alter(&$form, $form_state)
+{
+    $email = $_GET['email'];
+    $form['submitted']['email_to']['#default_value'] = $email;
+}
+
+/**
+ * Implements hook_block_view_alter()
+ * @param $data
+ * @param $block
+ */
+function php_tweaks_block_view_alter(&$data, $block)
+{
+    global $base_path;
+    if ($block->bid == 146 && user_is_logged_in()) {
+        $data['content'] = '<a id="logout-redirect" href="' . $base_path . 'user/logout">Logout</a> <a id="my-account" href="user">My Account</a> <a id="main-profile" href="profile-main">My Main Profile</a>';
+    }
+}
+
+
+function php_tweaks_node_insert($node)
+{
+    global $base_url;
+    if ($node->type == "event_reservation") {
+        $event = node_load($node->field_event['und'][0]['target_id']);
+        $event_title = $event->title;
+        $event_url = $base_url . "/node/" . $event->nid;
+        $user_email = $node->field_email_address['und'][0]['email'];
+        $event_time = date("D, M d, o: g:i a", strtotime($event->field_start_date['und'][0]['value']));
+//        dpm($event_time);
+        $subject = 'RSVP for PHP event confirmation ';
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
+        $headers .= 'From: info@php.com' . "\r\n" .
+            'Reply-To: info@php.com' . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+        $headers .= "X-Priority: 3\r\n";
+        $message = "You have registered to <strong>" . $event_title . "</strong> via Parents Helping Parents. The event is going to be held at " . $event_time . ". You can access the event page via the following link - <a href='" . $event_url . "'>" . $event_title . "</a>. <br><br> Best Regards, <br> Parents Helping Parents <br> <i>Should you need immediate assistance or have questions about this event, please call 408-727-5775. </i>";
+        mail($user_email, $subject, $message, $headers);
+    }
+}
+
+
+function php_tweaks_user_login(&$edit, $account)
+{
+    $previous = ltrim($_GET['previous'], '/');
+    if ($previous) {
+        $edit['redirect'] = $previous;
+    }
+}
+
+function php_tweaks_user($op, &$edit, &$account, $category = NULL)
+{
+    global $user;
+    switch ($op) {
+        case 'logout':
+            watchdog("logout edit", '<pre>' . $edit . '</pre>');
+            $previous = ltrim($_GET['previous'], '/');
+            $edit['redirect'] = $previous;
+            break;
+    }
+}
+
+
+

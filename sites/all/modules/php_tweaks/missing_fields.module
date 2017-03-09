@@ -1,0 +1,103 @@
+<?php
+
+function missing_fields_node_view(&$node, $view_mode, $langcode)
+{
+    $events = array();
+    $events = db_query("SELECT * FROM node WHERE type='event'")->fetchAll();
+    foreach ($events as $one) {
+        set_time_limit(0);
+        $current_nid = $one->nid;
+        $current_title = $one->title;
+//        $php_sponsored = $one->field_php_sponsored['und'][0]['value'];
+//        if (strtolower($php_sponsored) == 'yes') {
+//            $one->title['#attributes']['class'] = 'php-sponsored';
+//        }
+//        $start_time = db_query("SELECT event.event_start FROM event LEFT JOIN node_old ON event.nid=node_old.nid WHERE node_old.title=:current_title", array(':current_title' =>$current_title))->fetchField();
+//        $end_time = db_query("SELECT event.event_end FROM event LEFT JOIN node_old ON event.nid=node_old.nid WHERE node_old.title=:current_title", array(':current_title' =>$current_title))->fetchField();
+//        $timezone = db_query("SELECT event.timezone FROM event LEFT JOIN node_old ON event.nid=node_old.nid where node_old.title=:current_title", array(':current_title' =>$current_title))->fetchField();
+//        $lid = db_query("SELECT location_old.lid FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.title=:current_title", array(':current_title' =>$current_title))->fetchField();
+//        $location_lid_updated = db_query("SELECT field_locations_lid FROM field_data_field_locations WHERE entity_id=:current_nid", array(':current_nid' => $current_nid))->fetchField();
+//        $phone = db_query("SELECT ctevent_old.field_contact_phone_value FROM ctevent_old LEFT JOIN node_old ON ctevent_old.nid=node_old.nid where node_old.title=:current_title", array(':current_title' =>$current_title))->fetchField();
+//        if ($phone) {
+//            dpm($phone);
+//        }
+////        dpm($lid);
+//        if ($lid && $location_lid_updated) {
+//            $updated_lid = db_update('field_data_field_locations')
+//                ->fields(array(
+//                    'field_locations_lid' => $lid,
+//                ))
+//                ->execute();
+//        }
+//        $street = db_query("SELECT location_old.street FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $city = db_query("SELECT location_old.city FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $source = db_query("SELECT location_old.source FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $is_primary = db_query("SELECT location_old.is_primary FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $country = db_query("SELECT location_old.country FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $latitude = db_query("SELECT location_old.latitude FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        $longitude = db_query("SELECT location_old.longitude FROM location_old LEFT JOIN node_old ON location_old.eid=node_old.nid where node_old.nid=:current_nid", array(':current_nid' =>$current_nid))->fetchField();
+//        module_load_include('inc', 'missing_fields', 'geocodes');
+//
+////
+//        $set_timezone_code = missing_fields_return_areaname_by_code($timezone, $start_time);
+////////        $set_end_time = missing_fields_return_areaname_by_code($timezone, $end_time);
+//        $set_timezone = timezone_name_from_abbr(null, $set_timezone_code, true);
+//        if (!$set_timezone) {
+//            $set_timezone = 'Atlantic/Azores';
+//        }
+//dpm($start_time);
+//        $set_start_time = new DateTime($start_time);
+//        $set_end_time = new DateTime($end_time);
+////        dpm($set_timezone);
+//
+//        $changed_event = node_load($current_nid);
+//        if ($phone && !field_get_items('node', $changed_event, 'field_contact_phone')) {
+//            $changed_event->field_contact_phone[LANGUAGE_NONE][0]['number'] = $phone;
+//        }
+//        if (field_get_items('node', $changed_event, 'field_start_date') == FALSE && $start_time && $end_time) {
+//            $changed_event->field_start_date[$changed_event->language][0]['value'] =  $start_time;
+//            $changed_event->field_start_date[$changed_event->language][0]['timezone'] = $set_timezone;
+//            $changed_event->field_end_date[$changed_event->language][0]['value'] = $end_time;
+//            $changed_event->field_end_date[$changed_event->language][0]['timezone'] = $set_timezone;
+//        }
+//        if ($lid != 0) {
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['location_name'] = $city;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['street'] = $street;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['country'] = $country;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['latitude'] = $latitude;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['longitude'] = $longitude;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['source'] = $source;
+//            $changed_event->field_locations[LANGUAGE_NONE][0]['is_primary'] = $is_primary;
+//        }
+//        node_save($changed_event);
+    }
+
+
+    if ($node->type == 'event') {
+        if (strtolower($node->field_allow_reservation[LANGUAGE_NONE][0]['value']) == 'yes') {
+            $node->field_reserve_seats[LANGUAGE_NONE][0]['url'] = "node/add/event-reservation?event=" . $node->nid;
+        }
+    }
+}
+
+function missing_fields_form_event_reservation_node_form_alter (&$form, $form_state) {
+    $linked_event = $_GET['event'];
+    if ($linked_event){
+        $event = node_load($linked_event);
+        $event_title = $event->title;
+        $form['title']['#default_value'] = 'Reservation for ' . $event_title;
+    }
+
+}
+
+
+function missing_fields_views_pre_render(&$view) {
+    if ($view->name == 'events') {
+        foreach ($view->result as $row) {
+            if (strtolower($row->field_field_php_sponsored[0]['rendered']['#markup']) == 'yes') {
+                $row->node_title = '$token$' . $row->node_title;
+            }
+        }
+//        drupal_add_js('missing_fields_js');
+    }
+}

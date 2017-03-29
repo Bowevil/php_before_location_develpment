@@ -1748,7 +1748,9 @@ select option {
 }
 
 .goog-te-gadget {
-    height: 40px !important;
+    height: auto !important;
+    min-width: 200px;
+    max-width: 200px;
 }
 .goog-te-gadget-simple {
     height: 25px !important;
